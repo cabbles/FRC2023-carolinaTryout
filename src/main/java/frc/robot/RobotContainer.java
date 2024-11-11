@@ -98,6 +98,7 @@ public class RobotContainer {
    */
   private void configureShuffleboard() {
 
+    
     // display sticky faults
     RobotPreferences.showStickyFaultsOnShuffleboard();
     SmartDashboard.putData("Clear Sticky Faults", new StickyFaultsClear(log));
@@ -129,6 +130,9 @@ public class RobotContainer {
 
     // Testing for trajectories
     Rotation2d rotationFront = new Rotation2d();          // Facing away from drivers
+    
+    SmartDashboard.putData("Tryout Trajectory", new DriveTrajectory(CoordType.kRelative, StopType.kBrake, 
+      trajectoryCache.cache[TrajectoryType.tryoutTrajectory.value], driveTrain, log));
     SmartDashboard.putData("Drive Trajectory Relative", new DriveTrajectory(CoordType.kRelative, StopType.kBrake, 
         trajectoryCache.cache[TrajectoryType.test.value], driveTrain, log));
     SmartDashboard.putData("Drive Trajectory Curve Relative", new DriveTrajectory(CoordType.kRelative, StopType.kBrake, 

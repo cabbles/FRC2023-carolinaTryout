@@ -12,9 +12,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-
+import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.commands.autos.TryoutTrajectory;
 
 /**
  * Class that defines and caches all trajectories that the robot could run.
@@ -23,12 +24,13 @@ import frc.robot.Constants.SwerveConstants;
 public class TrajectoryCache {
     private FileLog log;
    
-    private static int trajectoryCount = 2;
+    private static int trajectoryCount = 3;
     public TrajectoryFacing[] cache = new TrajectoryFacing[trajectoryCount];        // array of trajectories
 
     public enum TrajectoryType {
         test(0),
-        testCurve(1);
+        testCurve(1),
+        tryoutTrajectory(2);
         // CenterBalanceBlue(2),
         // CenterBalanceRed(3),
         // LeaveCommunity(4),
@@ -162,6 +164,35 @@ public class TrajectoryCache {
                 new Pose2d(3, 3, new Rotation2d(Math.toRadians(90.0)))
             )
         );     
+
+
+        Trajectory traj1 = 
+        TrajectoryCache.calcTrajectory("Tryout Trajectory", 0.5, 0.5, 
+        new Pose2d(Units.inchesToMeters(43), Units.feetToMeters(7.5), new Rotation2d(0)), 
+        List.of(new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(85)), 
+              new Translation2d(Units.inchesToMeters(185), Units.inchesToMeters(60)),
+              new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(30)),
+              new Translation2d(Units.inchesToMeters(115), Units.inchesToMeters(75)), //circle around D5
+
+              new Translation2d(Units.inchesToMeters(240), Units.inchesToMeters(85)),
+              new Translation2d(Units.inchesToMeters(275), Units.inchesToMeters(120)),
+              new Translation2d(Units.inchesToMeters(240), Units.inchesToMeters(145)),
+              new Translation2d(Units.inchesToMeters(205), Units.inchesToMeters(110)), //circle around B8
+              
+              new Translation2d(Units.inchesToMeters(300), Units.inchesToMeters(35)),
+              new Translation2d(Units.inchesToMeters(340), Units.inchesToMeters(60)),
+              new Translation2d(Units.inchesToMeters(300), Units.inchesToMeters(80)),
+              new Translation2d(Units.inchesToMeters(210), Units.inchesToMeters(90)), //around D10
+              
+              new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(100))
+             // new Translation2d(Units.inchesToMeters(30), Units.inchesToMeters(91)) //back to start
+              ),
+        new Pose2d(Units.inchesToMeters(30), Units.feetToMeters(7.5), new Rotation2d(Math.PI)), log);
+  
+
+        cache[TrajectoryType.tryoutTrajectory.value] = new TrajectoryFacing( new Rotation2d(0),  new Rotation2d(Math.PI), traj1);
+      
+
         
         // cache[TrajectoryType.CenterBalanceBlue.value] = new TrajectoryFacing(
         //     new Rotation2d(Math.PI),            // Start facing driver station
